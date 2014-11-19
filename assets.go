@@ -2,11 +2,12 @@ package assets
 
 // Expected use case:
 //
-// assets.Bundle("core").Dir("assets")
-//   .Files("core.js",
-//          "util.js",
-//          "models.js",
-//          "network.js")
+// assets.Bundle("core")
+//	 .Add(assets.Dir("assets")
+//     .Files("core.js",
+//            "util.js",
+//            "models.js",
+//            "network.js"))
 //   .Filter(assets.Combine(), assets.Minify())
 //   .DependsOn(dependencyBundle)
 //
@@ -14,9 +15,12 @@ package assets
 // Bundle holds a collection of assets. Filters may be applied to bundles,
 // and the resulting assets outputted to disk.
 type AssetBundle interface {
+	// Add adds a bundle of assets to this bundle
+	Add(AssetBundle) AssetBundle
 
-	// Dir returns an AssetBundle chdir'd into the specified directory.
-	Dir(string) AssetBundle
+	// Filter performs the given filters on all assets contained within the
+	// bundle.
+	Filter(...Filter) AssetBundle
 
 	// Value returns the resulting, evaluated AssetBundle or an error,
 	// depending on the result of evaluation.
@@ -32,7 +36,7 @@ type Directory interface {
 	// Files returns the provided files as a bundle.
 	Files(...string) AssetBundle
 
-	// AllFiles returns all files in the directory as a bundle
+	// AllFiles returns all files in the directory as a bundle.
 	AllFiles() AssetBundle
 }
 

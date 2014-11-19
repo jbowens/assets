@@ -6,12 +6,12 @@ type bundle struct {
 	Name string
 }
 
-func (b *bundle) Value() (AssetBundle, error) {
+func (b *bundle) Value() (*bundle, error) {
 	// TODO: Implement
 	return nil, nil
 }
 
-func (b *bundle) Must() AssetBundle {
+func (b *bundle) Must() *bundle {
 	val, err := b.Value()
 	if err != nil {
 		panic(err)

@@ -2,7 +2,7 @@ package assets
 
 type dir struct{}
 
-func (b *bundle) Dir(path string) *dir {
+func Dir(path string) *bundle {
 
-	return &dir{}
+	return &bundle{Name: path}
 }
