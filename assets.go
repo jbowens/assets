@@ -1,5 +1,7 @@
 package assets
 
+import "io"
+
 // Expected use case:
 //
 // assets.Bundle("core")
@@ -8,7 +10,7 @@ package assets
 //            "util.js",
 //            "models.js",
 //            "network.js"))
-//   .Filter(assets.Combine(), assets.Minify())
+//   .Filter(assets.Concat(), assets.Minify())
 //   .DependsOn(dependencyBundle)
 //
 
@@ -17,6 +19,9 @@ package assets
 type AssetBundle interface {
 	// Add adds a bundle of assets to this bundle
 	Add(AssetBundle) AssetBundle
+
+	// Assets returns all the assets contained within the bundle.
+	Assets() []Asset
 
 	// Filter performs the given filters on all assets contained within the
 	// bundle.
@@ -43,7 +48,7 @@ type Directory interface {
 // Assets describes an individual asset file.
 type Asset interface {
 	FileName() string
-	Contents() []byte
+	Contents() io.Reader
 }
 
 // Filter defines a filter that can be applied to bundle of assets.
@@ -56,6 +61,7 @@ type Filter interface {
 // Bundle creates a new bundle with the given name.
 func Bundle(name string) AssetBundle {
 	return &bundle{
-		Name: name,
+		Name:   name,
+		assets: []Asset{},
 	}
 }
