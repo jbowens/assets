@@ -4,13 +4,14 @@ import "io"
 
 // Expected use case:
 //
-// assets.Bundle("core")
-//	 .Add(assets.Dir("assets")
+//
+// core := assets.Dir("assets")
 //     .Files("core.js",
 //            "util.js",
 //            "models.js",
 //            "network.js"))
 //   .Filter(assets.Concat(), assets.Minify())
+//   .Write("generated")
 //   .DependsOn(dependencyBundle)
 //
 
@@ -26,9 +27,6 @@ type AssetBundle interface {
 	// Filter performs the given filters on all assets contained within the
 	// bundle. Filters are executed in the order they're received.
 	Filter(...Filter) AssetBundle
-
-	// Name returns the name for this bundle.
-	Name() string
 }
 
 // Directory represents a directory from which we can retrieve assets.
@@ -65,7 +63,6 @@ func (f FilterFunc) RunFilter(bundle AssetBundle) (AssetBundle, error) {
 // Bundle creates a new bundle with the given name.
 func Bundle(name string) AssetBundle {
 	return &defaultBundle{
-		Name:   name,
 		assets: []Asset{},
 	}
 }

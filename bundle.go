@@ -2,9 +2,6 @@ package assets
 
 // defaultBundle is the default implementation of the AssetBundle interface.
 type defaultBundle struct {
-	// Name stores the name of the bundle, usually used for outputted files.
-	name string
-
 	// assets contains a slice of all the assets in the system.
 	assets []Asset
 }
@@ -19,10 +16,15 @@ func (b *defaultBundle) Assets() []Asset {
 }
 
 func (b *defaultBundle) Filter(filters ...Filter) AssetBundle {
-	// TODO: Implement
-	return nil
-}
 
-func (b *defaultBundle) Name() string {
-	return b.name
+	var bundle AssetBundle = b
+	var err error
+	for _, f := range filters {
+		bundle, err = f.RunFilter(bundle)
+		if err != nil {
+			return &ErrorBundle{err: err}
+		}
+	}
+
+	return bundle
 }
