@@ -26,6 +26,9 @@ type AssetBundle interface {
 	// Filter performs the given filters on all assets contained within the
 	// bundle. Filters are executed in the order they're received.
 	Filter(...Filter) AssetBundle
+
+	// Name returns the name for this bundle.
+	Name() string
 }
 
 // Directory represents a directory from which we can retrieve assets.
@@ -45,9 +48,18 @@ type Asset interface {
 
 // Filter defines a filter that can be applied to bundle of assets.
 type Filter interface {
-	// RunFilter takes a slice of assets, performs its operation on them, and
-	// returns the resulting asset slice.
-	RunFilter([]Asset) ([]Asset, error)
+	// RunFilter takes a bundle, performs its operation on it, and
+	// returns the resulting bundle
+	RunFilter(AssetBundle) (AssetBundle, error)
+}
+
+// FilterFunc is an adapter type for wrapping simple functions in a Filter
+// interface.
+type FilterFunc func(AssetBundle) (AssetBundle, error)
+
+// RunFilter executes the FilterFunc as a filter.
+func (f FilterFunc) RunFilter(bundle AssetBundle) (AssetBundle, error) {
+	return f(bundle)
 }
 
 // Bundle creates a new bundle with the given name.
