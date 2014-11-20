@@ -1,1 +1,4 @@
 language: go
+
+install:
+  - ./scripts/install-dependencies.sh
