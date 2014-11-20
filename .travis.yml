@@ -1,5 +1,8 @@
 language: go
 
+notifications:
+  email: false
+
 install:
   - ./scripts/install-dependencies.sh
   - go get github.com/suapapa/go_sass
