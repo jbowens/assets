@@ -21,3 +21,11 @@ func (b *ErrorBundle) Filter(filters ...Filter) AssetBundle {
 func (b *ErrorBundle) Name() string {
 	return "error"
 }
+
+func (b *ErrorBundle) MustWrite(dir string) AssetBundle {
+	panic(b.err)
+}
+
+func (b *ErrorBundle) Write(dir string) (AssetBundle, error) {
+	return nil, b.err
+}

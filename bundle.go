@@ -1,5 +1,11 @@
 package assets
 
+import (
+	"io"
+	"os"
+	"path/filepath"
+)
+
 // defaultBundle is the default implementation of the AssetBundle interface.
 type defaultBundle struct {
 	// currentName holds the name of the bundle
@@ -34,4 +40,31 @@ func (b *defaultBundle) Filter(filters ...Filter) AssetBundle {
 
 func (b *defaultBundle) Name() string {
 	return b.currentName
+}
+
+func (b *defaultBundle) MustWrite(dir string) AssetBundle {
+	bundle, err := b.Write(dir)
+	if err != nil {
+		panic(err)
+	}
+	return bundle
+}
+
+func (b *defaultBundle) Write(dir string) (AssetBundle, error) {
+	for _, asset := range b.assets {
+		fileName := filepath.Join(dir, asset.FileName())
+		f, err := os.Create(fileName)
+		if err != nil {
+			return nil, err
+		}
+
+		_, err = io.Copy(f, asset.Contents())
+		if err != nil {
+			return nil, err
+		}
+
+		asset.Contents().Close()
+	}
+
+	return b, nil
 }

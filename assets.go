@@ -5,7 +5,7 @@ import "io"
 // Bundle holds a collection of assets. Filters may be applied to bundles,
 // and the resulting assets outputted to disk.
 type AssetBundle interface {
-	// Add adds a bundle of assets to this bundle
+	// Add adds a bundle of assets to this bundle.
 	Add(AssetBundle) AssetBundle
 
 	// Assets returns all the assets contained within the bundle.
@@ -15,8 +15,15 @@ type AssetBundle interface {
 	// bundle. Filters are executed in the order they're received.
 	Filter(...Filter) AssetBundle
 
-	// Name retrieves the name of the bundle
+	// Name retrieves the name of the bundle.
 	Name() string
+
+	// Write writes out all assets in the bundle to the provided directory.
+	Write(string) (AssetBundle, error)
+
+	// MustWrite writes out all assets in the bundle. It panics if an error
+	// occurred during the pipeline.
+	MustWrite(string) AssetBundle
 }
 
 // Directory represents a directory from which we can retrieve assets.
