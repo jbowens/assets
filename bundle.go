@@ -2,6 +2,9 @@ package assets
 
 // defaultBundle is the default implementation of the AssetBundle interface.
 type defaultBundle struct {
+	// currentName holds the name of the bundle
+	currentName string
+
 	// assets contains a slice of all the assets in the system.
 	assets []Asset
 }
@@ -27,4 +30,8 @@ func (b *defaultBundle) Filter(filters ...Filter) AssetBundle {
 	}
 
 	return bundle
+}
+
+func (b *defaultBundle) Name() string {
+	return b.currentName
 }

@@ -2,7 +2,7 @@ package assets
 
 import "io"
 
-func MutliReadCloser(readClosers ...io.ReadCloser) io.ReadCloser {
+func MultiReadCloser(readClosers ...io.ReadCloser) io.ReadCloser {
 	readers := make([]io.Reader, len(readClosers))
 	for idx, reader := range readClosers {
 		readers[idx] = reader

@@ -17,3 +17,7 @@ func (b *ErrorBundle) Assets() []Asset {
 func (b *ErrorBundle) Filter(filters ...Filter) AssetBundle {
 	return b
 }
+
+func (b *ErrorBundle) Name() string {
+	return "error"
+}

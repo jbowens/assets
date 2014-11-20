@@ -27,6 +27,9 @@ type AssetBundle interface {
 	// Filter performs the given filters on all assets contained within the
 	// bundle. Filters are executed in the order they're received.
 	Filter(...Filter) AssetBundle
+
+	// Name retrieves the name of the bundle
+	Name() string
 }
 
 // Directory represents a directory from which we can retrieve assets.
@@ -63,6 +66,7 @@ func (f FilterFunc) RunFilter(bundle AssetBundle) (AssetBundle, error) {
 // Bundle creates a new bundle with the given name.
 func Bundle(name string) AssetBundle {
 	return &defaultBundle{
-		assets: []Asset{},
+		currentName: name,
+		assets:      []Asset{},
 	}
 }

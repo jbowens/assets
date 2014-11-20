@@ -41,8 +41,8 @@ func (d *dir) Files(files ...string) AssetBundle {
 	}
 
 	return &defaultBundle{
-		Name:   d.Path,
-		assets: assets,
+		currentName: d.Path,
+		assets:      assets,
 	}
 }
 
@@ -74,7 +74,7 @@ func (d *dir) AllFiles() AssetBundle {
 	}
 
 	return &defaultBundle{
-		Name:   d.Path,
-		assets: assets,
+		currentName: d.Path,
+		assets:      assets,
 	}
 }
