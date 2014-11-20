@@ -2,19 +2,6 @@ package assets
 
 import "io"
 
-// Expected use case:
-//
-//
-// core := assets.Dir("assets")
-//     .Files("core.js",
-//            "util.js",
-//            "models.js",
-//            "network.js"))
-//   .Filter(assets.Concat(), assets.Minify())
-//   .Write("generated")
-//   .DependsOn(dependencyBundle)
-//
-
 // Bundle holds a collection of assets. Filters may be applied to bundles,
 // and the resulting assets outputted to disk.
 type AssetBundle interface {
