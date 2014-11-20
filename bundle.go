@@ -53,6 +53,12 @@ func (b *defaultBundle) MustWrite(dir string) AssetBundle {
 func (b *defaultBundle) Write(dir string) (AssetBundle, error) {
 	for _, asset := range b.assets {
 		fileName := filepath.Join(dir, asset.FileName())
+
+		err := os.MkdirAll(filepath.Dir(fileName), os.ModePerm)
+		if err != nil {
+			return nil, err
+		}
+
 		f, err := os.Create(fileName)
 		if err != nil {
 			return nil, err

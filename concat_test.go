@@ -11,6 +11,6 @@ func TestConcatEndToEnd(t *testing.T) {
 	bundle := d.AllFiles().Filter(Concat())
 	filenames, contents := bundleToFilenamesAndContents(t, bundle)
 
-	assert.Contains(t, filenames, "test_files/abc")
+	assert.Contains(t, filenames, "abc")
 	assert.Contains(t, contents, "a\nb\nc")
 }
