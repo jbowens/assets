@@ -1,6 +1,5 @@
 assets
 ======
-[![Build Status](https://travis-ci.org/jbowens/assets.svg?branch=master)](https://travis-ci.org/jbowens/assets)
 
 Assets management for golang web applications
 
