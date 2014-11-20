@@ -13,6 +13,6 @@ func TestSimpleSass(t *testing.T) {
 	bundle := Dir("test_files/sass").Files("simple.scss").Filter(Sass())
 	filenames, contents := bundleToFilenamesAndContents(t, bundle)
 
-	assert.Contains(t, filenames, "simple.scss")
+	assert.Contains(t, filenames, "simple.css")
 	assert.Contains(t, contents, simpleSassCompiled)
 }

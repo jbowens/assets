@@ -29,7 +29,15 @@ func Sass() Filter {
 			}
 			compiledReader := ioutil.NopCloser(strings.NewReader(compiledString))
 
-			compiledAssets[idx] = NewAsset(asset.FileName(), compiledReader)
+			filename := asset.FileName()
+			if strings.HasSuffix(filename, ".scss") ||
+				strings.HasSuffix(filename, ".sass") {
+				filename = strings.TrimSuffix(filename, ".scss")
+				filename = strings.TrimSuffix(filename, ".sass")
+				filename = filename + ".css"
+			}
+
+			compiledAssets[idx] = NewAsset(filename, compiledReader)
 		}
 
 		return &defaultBundle{
