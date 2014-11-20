@@ -24,16 +24,8 @@ type AssetBundle interface {
 	Assets() []Asset
 
 	// Filter performs the given filters on all assets contained within the
-	// bundle.
+	// bundle. Filters are executed in the order they're received.
 	Filter(...Filter) AssetBundle
-
-	// Value returns the resulting, evaluated AssetBundle or an error,
-	// depending on the result of evaluation.
-	Value() (AssetBundle, error)
-
-	// Must returns the resulting AssetBundle. If an error resulted during
-	// evaluation, Must will panic.
-	Must() AssetBundle
 }
 
 // Directory represents a directory from which we can retrieve assets.
@@ -48,7 +40,7 @@ type Directory interface {
 // Assets describes an individual asset file.
 type Asset interface {
 	FileName() string
-	Contents() io.Reader
+	Contents() io.ReadCloser
 }
 
 // Filter defines a filter that can be applied to bundle of assets.
@@ -60,7 +52,7 @@ type Filter interface {
 
 // Bundle creates a new bundle with the given name.
 func Bundle(name string) AssetBundle {
-	return &bundle{
+	return &defaultBundle{
 		Name:   name,
 		assets: []Asset{},
 	}
