@@ -23,6 +23,7 @@ func Fingerprint() Filter {
 			if err != nil {
 				return nil, err
 			}
+			asset.Contents().Close()
 
 			hasher.Reset()
 			hasher.Write(buf.Bytes())

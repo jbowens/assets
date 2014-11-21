@@ -22,6 +22,7 @@ func Sass() Filter {
 			if err != nil {
 				return nil, err
 			}
+			asset.Contents().Close()
 
 			compiledString, err := compiler.Compile(buf.String())
 			if err != nil {
