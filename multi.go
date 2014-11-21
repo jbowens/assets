@@ -2,9 +2,9 @@ package assets
 
 import "io"
 
-// MultiReadCloser returns an io.ReadCloser that combines all the io.ReadCloser
+// newMultiReadCloser returns an io.ReadCloser that combines all the io.ReadCloser
 // arguments supplied to the function.
-func MultiReadCloser(readClosers ...io.ReadCloser) io.ReadCloser {
+func newMultiReadCloser(readClosers ...io.ReadCloser) io.ReadCloser {
 	readers := make([]io.Reader, len(readClosers))
 	for idx, reader := range readClosers {
 		readers[idx] = reader

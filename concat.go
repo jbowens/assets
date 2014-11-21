@@ -17,7 +17,7 @@ func Concat() Filter {
 			assets: []Asset{
 				&asset{
 					fileName: bundle.Name(),
-					contents: MultiReadCloser(readClosers...),
+					contents: newMultiReadCloser(readClosers...),
 				},
 			},
 		}, nil
