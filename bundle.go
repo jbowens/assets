@@ -31,7 +31,7 @@ func (b *defaultBundle) Filter(filters ...Filter) AssetBundle {
 	for _, f := range filters {
 		bundle, err = f.RunFilter(bundle)
 		if err != nil {
-			return &ErrorBundle{err: err}
+			return &errorBundle{err: err}
 		}
 	}
 

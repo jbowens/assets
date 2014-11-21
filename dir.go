@@ -33,14 +33,14 @@ func (d *dir) Files(files ...string) AssetBundle {
 	}
 
 	// If an error occurred, close any readers we opened and return
-	// an ErrorBundle that evaluates to an error.
+	// an errorBundle that evaluates to an error.
 	if err != nil {
 		for _, a := range assets {
 			if a.Contents() != nil {
 				a.Contents().Close()
 			}
 		}
-		return &ErrorBundle{err: err}
+		return &errorBundle{err: err}
 	}
 
 	return &defaultBundle{
@@ -74,7 +74,7 @@ func (d *dir) AllFiles() AssetBundle {
 		})
 
 	if err != nil {
-		return &ErrorBundle{err: err}
+		return &errorBundle{err: err}
 	}
 
 	return &defaultBundle{
