@@ -23,3 +23,11 @@ func TestSimplePipeline(t *testing.T) {
 	assert.NotNil(t, bundle)
 	expectFile(t, "test_files/generated/abc", "a\nb\nc\n")
 }
+
+func TestSimpleFingerprintingPipeline(t *testing.T) {
+	bundle, err := Dir("test_files/css/").AllFiles().
+		Filter(Fingerprint()).Write("test_files/generated")
+
+	assert.Nil(t, err)
+	assert.NotNil(t, bundle)
+}
