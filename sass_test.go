@@ -10,7 +10,8 @@ var simpleSassCompiled = `body {
   color: #333; }`
 
 func TestSimpleSass(t *testing.T) {
-	bundle := Dir("test_files/sass").MustFiles("simple.scss").Filter(Sass())
+	bundle, err := Dir("test_files/sass").MustFiles("simple.scss").Filter(Sass())
+	assert.Nil(t, err)
 	filenames, contents := bundleToFilenamesAndContents(t, bundle)
 
 	assert.Contains(t, filenames, "simple.css")

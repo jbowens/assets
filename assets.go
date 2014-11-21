@@ -13,7 +13,12 @@ type AssetBundle interface {
 
 	// Filter performs the given filters on all assets contained within the
 	// bundle. Filters are executed in the order they're received.
-	Filter(...Filter) AssetBundle
+	Filter(...Filter) (AssetBundle, error)
+
+	// MustFilter performs the given filters on all assets contained within the
+	// bundle. Filters are executed in the order they're received. If an error
+	// occurs in any filter, this function will panic.
+	MustFilter(...Filter) AssetBundle
 
 	// Assets returns all the assets contained within the bundle.
 	Assets() []Asset

@@ -18,17 +18,24 @@ func (b *defaultBundle) Assets() []Asset {
 	return b.assets
 }
 
-func (b *defaultBundle) Filter(filters ...Filter) AssetBundle {
-
+func (b *defaultBundle) Filter(filters ...Filter) (AssetBundle, error) {
 	var bundle AssetBundle = b
 	var err error
 	for _, f := range filters {
 		bundle, err = f.RunFilter(bundle)
 		if err != nil {
-			return &errorBundle{err: err}
+			return nil, err
 		}
 	}
 
+	return bundle, nil
+}
+
+func (b *defaultBundle) MustFilter(filters ...Filter) AssetBundle {
+	bundle, err := b.Filter(filters...)
+	if err != nil {
+		panic(err)
+	}
 	return bundle
 }
 
