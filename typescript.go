@@ -31,7 +31,7 @@ func TypeScript() Filter {
 			return nil, err
 		}
 		// Remember to clean up after ourselves
-		defer os.RemoveAll(dir)
+		//		defer os.RemoveAll(dir)
 
 		// Write out our files to the temporary directory.
 		bundle, err = bundle.Filter(WriteToDir(dir))
@@ -45,10 +45,16 @@ func TypeScript() Filter {
 			// There is no TypeScript compiler in the $PATH
 			return nil, err
 		}
-		cmd := exec.Command(pathToCompiler, append([]string{"--outDir", dir}, bundle.FileNames()...)...)
-		err = cmd.Run()
+
+		args := append([]string{"--outDir", dir}, bundle.FileNames()...)
+		for i := 2; i < len(args); i++ {
+			args[i] = filepath.Join(dir, args[i])
+		}
+
+		cmd := exec.Command(pathToCompiler, args...)
+		output, err := cmd.CombinedOutput()
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("Error running tsc: %v, output: %v", err, string(output))
 		}
 
 		// Create the new asset list for the resulting bundle.

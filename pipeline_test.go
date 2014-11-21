@@ -31,3 +31,10 @@ func TestSimpleFingerprintingPipeline(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, bundle)
 }
+
+func TestTypeScript(t *testing.T) {
+	bundle, err := Dir("test_files/typescript/").MustAllFiles().
+		Filter(TypeScript(), WriteToDir("test_files/generated"))
+	assert.Nil(t, err)
+	assert.NotNil(t, bundle)
+}
