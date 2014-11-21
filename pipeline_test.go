@@ -16,18 +16,21 @@ func expectFile(t *testing.T, path, contents string) {
 }
 
 func TestSimplePipeline(t *testing.T) {
-	bundle, err := Dir("test_files/abc").AllFiles().
-		Filter(Concat()).Write("test_files/generated")
+	bundle := Dir("test_files/abc").AllFiles().
+		Filter(Concat(), WriteToDir("test_files/generated"))
 
-	assert.Nil(t, err)
+	//assert.Nil(t, err)
 	assert.NotNil(t, bundle)
 	expectFile(t, "test_files/generated/abc", "a\nb\nc\n")
 }
 
 func TestSimpleFingerprintingPipeline(t *testing.T) {
-	bundle, err := Dir("test_files/css/").AllFiles().
-		Filter(Fingerprint()).Write("test_files/generated")
+	bundle := Dir("test_files/css/").AllFiles().
+		Filter(Fingerprint(), WriteToDir("test_files/generated"))
 
-	assert.Nil(t, err)
+	// TODO(jackson): Clean up these tests once I figure out how to propagate
+	// errors cleanly.
+
+	//assert.Nil(t, err)
 	assert.NotNil(t, bundle)
 }

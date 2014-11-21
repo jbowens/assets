@@ -12,13 +12,11 @@ core_js := assets.Dir("assets/js")
          "util.js",
          "models.js",
          "network.js")
-  .Filter(assets.Concat(), assets.Uglify())
-  .MustWrite("generated/assets/js")
+  .Filter(assets.Concat(), assets.Uglify(), WriteToDir("generated/assets/js"))
   .DependsOn(jqueryBundle)
 ```
 
 ```go
-homepage_css := assets.Dir("assets/css/home")
-  .AllFiles().Filter(assets.Concat(), assets.Sass())
-  .MustWrite("generated/assets/css")
+homepage_css := assets.Dir("assets/css/home").AllFiles()
+  .Filter(assets.Concat(), assets.Sass(), WriteToDir("generated/assets/css")
 ```
