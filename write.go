@@ -33,8 +33,6 @@ func WriteToDir(directory string) Filter {
 			if err != nil {
 				return nil, err
 			}
-
-			asset.Contents().Close()
 		}
 
 		return bundle, nil
