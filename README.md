@@ -21,7 +21,7 @@ coreJS, err = coreJS.Filter(
   assets.Concat(),
   assets.Uglify(),
   assets.WriteToDir("generated/assets/js")
-  ).DependsOn(jqueryBundle)
+  ).Add(jqueryBundle)
 ```
 
 In some places, assets offers Must functions that will panic on error.
