@@ -31,7 +31,7 @@ func TypeScript() Filter {
 			return nil, err
 		}
 		// Remember to clean up after ourselves
-		//		defer os.RemoveAll(dir)
+		defer os.RemoveAll(dir)
 
 		// Write out our files to the temporary directory.
 		bundle, err = bundle.Filter(WriteToDir(dir))
