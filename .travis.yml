@@ -5,4 +5,3 @@ notifications:
 
 install:
   - ./scripts/install-dependencies.sh
-  - go get github.com/suapapa/go_sass
