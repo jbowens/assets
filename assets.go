@@ -22,6 +22,9 @@ type AssetBundle interface {
 
 	// Assets returns all the assets contained within the bundle.
 	Assets() []Asset
+
+	// FileNames returns all of assets file names.
+	FileNames() []string
 }
 
 // Directory represents a directory from which we can retrieve assets.

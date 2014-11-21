@@ -42,3 +42,13 @@ func (b *defaultBundle) MustFilter(filters ...Filter) AssetBundle {
 func (b *defaultBundle) Name() string {
 	return b.currentName
 }
+
+func (b *defaultBundle) FileNames() []string {
+	names := make([]string, len(b.assets))
+
+	for idx, asset := range b.assets {
+		names[idx] = asset.FileName()
+	}
+
+	return names
+}
