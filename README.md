@@ -1,5 +1,6 @@
 assets
 ======
+[![GoDoc](https://godoc.org/github.com/jbowens/assets?status.svg)](https://godoc.org/github.com/jbowens/assets)
 
 Assets management for golang web applications
 
