@@ -22,10 +22,18 @@ type AssetBundle interface {
 // Directory represents a directory from which we can retrieve assets.
 type Directory interface {
 	// Files returns the provided files as a bundle.
-	Files(...string) AssetBundle
+	Files(...string) (AssetBundle, error)
+
+	// MustFiles returns the provided files as a bundle. On error this
+	// function will panic.
+	MustFiles(...string) AssetBundle
 
 	// AllFiles returns all files in the directory as a bundle.
-	AllFiles() AssetBundle
+	AllFiles() (AssetBundle, error)
+
+	// MustAllFiles returns all files in the directory as a bundle. On error
+	// this function will panic.
+	MustAllFiles() AssetBundle
 }
 
 // Asset describes an individual asset file.

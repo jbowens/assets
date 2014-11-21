@@ -16,7 +16,7 @@ func expectFile(t *testing.T, path, contents string) {
 }
 
 func TestSimplePipeline(t *testing.T) {
-	bundle := Dir("test_files/abc").AllFiles().
+	bundle := Dir("test_files/abc").MustAllFiles().
 		Filter(Concat(), WriteToDir("test_files/generated"))
 
 	//assert.Nil(t, err)
@@ -25,7 +25,7 @@ func TestSimplePipeline(t *testing.T) {
 }
 
 func TestSimpleFingerprintingPipeline(t *testing.T) {
-	bundle := Dir("test_files/css/").AllFiles().
+	bundle := Dir("test_files/css/").MustAllFiles().
 		Filter(Fingerprint(), WriteToDir("test_files/generated"))
 
 	// TODO(jackson): Clean up these tests once I figure out how to propagate

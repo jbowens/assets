@@ -8,7 +8,9 @@ import (
 
 func TestConcatEndToEnd(t *testing.T) {
 	d := Dir("test_files/abc")
-	bundle := d.AllFiles().Filter(Concat())
+	bundle, err := d.AllFiles()
+	assert.Nil(t, err)
+	bundle = bundle.Filter(Concat())
 	filenames, contents := bundleToFilenamesAndContents(t, bundle)
 
 	assert.Contains(t, filenames, "abc")

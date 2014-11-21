@@ -18,7 +18,7 @@ func Dir(path string) Directory {
 
 // Files returns an AssetBundle containing only the files at the filenames
 // given as arguments.
-func (d *dir) Files(files ...string) AssetBundle {
+func (d *dir) Files(files ...string) (AssetBundle, error) {
 	assets := make([]Asset, len(files))
 
 	var err error
@@ -40,17 +40,27 @@ func (d *dir) Files(files ...string) AssetBundle {
 				a.Contents().Close()
 			}
 		}
-		return &errorBundle{err: err}
+		return nil, err
 	}
 
 	return &defaultBundle{
 		currentName: filepath.Base(d.Path),
 		assets:      assets,
+	}, nil
+}
+
+// MustFiles returns an AssetBundle containing only the files at the filenames
+// given as arguments. If an error occurs, this function will panic.
+func (d *dir) MustFiles(files ...string) AssetBundle {
+	bundle, err := d.Files(files...)
+	if err != nil {
+		panic(err)
 	}
+	return bundle
 }
 
 // AllFiles returns an AssetBundle containing all the files in the directory.
-func (d *dir) AllFiles() AssetBundle {
+func (d *dir) AllFiles() (AssetBundle, error) {
 	assets := []Asset{}
 
 	err := filepath.Walk(d.Path,
@@ -74,11 +84,21 @@ func (d *dir) AllFiles() AssetBundle {
 		})
 
 	if err != nil {
-		return &errorBundle{err: err}
+		return nil, err
 	}
 
 	return &defaultBundle{
 		currentName: filepath.Base(d.Path),
 		assets:      assets,
+	}, nil
+}
+
+// MustAllFiles returns an AssetBundle containing all the files in the
+// directory. If an error occurs, this function will panic.
+func (d *dir) MustAllFiles() AssetBundle {
+	bundle, err := d.AllFiles()
+	if err != nil {
+		panic(err)
 	}
+	return bundle
 }

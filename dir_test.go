@@ -25,7 +25,8 @@ func bundleToFilenamesAndContents(t *testing.T, bundle AssetBundle) ([]string, [
 
 func TestDirAllFiles(t *testing.T) {
 	d := Dir("test_files/abc")
-	bundle := d.AllFiles()
+	bundle, err := d.AllFiles()
+	assert.Nil(t, err)
 	filenames, contents := bundleToFilenamesAndContents(t, bundle)
 
 	assert.Contains(t, filenames, "a")
@@ -38,7 +39,8 @@ func TestDirAllFiles(t *testing.T) {
 
 func TestDirFiles(t *testing.T) {
 	d := Dir("test_files/abc")
-	bundle := d.Files("a", "c")
+	bundle, err := d.Files("a", "c")
+	assert.Nil(t, err)
 	filenames, contents := bundleToFilenamesAndContents(t, bundle)
 
 	assert.Contains(t, filenames, "a")
