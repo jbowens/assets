@@ -4,19 +4,28 @@ assets
 
 Assets management for golang web applications
 
-## Example use cases
+## Examples
 
 ```go
-core_js := assets.Dir("assets/js")
+core_js, err := assets.Dir("assets/js")
   .Files("core.js",
          "util.js",
          "models.js",
          "network.js")
-  .Filter(assets.Concat(), assets.Uglify(), WriteToDir("generated/assets/js"))
-  .DependsOn(jqueryBundle)
+
+if err != nil {
+    return err
+}
+
+core_js, err = core_js.Filter(
+  assets.Concat(),
+  assets.Uglify(),
+  WriteToDir("generated/assets/js")
+  ).DependsOn(jqueryBundle)
 ```
 
+In some places, assets offers Must functions that will panic on error.
 ```go
-homepage_css := assets.Dir("assets/css/home").AllFiles()
-  .Filter(assets.Concat(), assets.Sass(), WriteToDir("generated/assets/css")
+homepage_css := assets.Dir("assets/css/home").MustAllFiles()
+  .MustFilter(assets.Concat(), assets.Sass(), WriteToDir("generated/assets/css")
 ```
