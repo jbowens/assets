@@ -9,8 +9,10 @@ import (
 	"strings"
 )
 
+// Fingerprint is a filter that sets asset filenames to include a md5 hash
+// of the file contents. This can help circumvent browser caching when changes
+// are made.
 func Fingerprint() Filter {
-
 	hasher := md5.New()
 
 	return FilterFunc(func(bundle AssetBundle) (AssetBundle, error) {

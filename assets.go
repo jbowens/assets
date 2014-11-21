@@ -2,7 +2,7 @@ package assets
 
 import "io"
 
-// Bundle holds a collection of assets. Filters may be applied to bundles,
+// AssetBundle holds a collection of assets. Filters may be applied to bundles,
 // and the resulting assets outputted to disk.
 type AssetBundle interface {
 	// Add adds a bundle of assets to this bundle.
@@ -35,7 +35,7 @@ type Directory interface {
 	AllFiles() AssetBundle
 }
 
-// Assets describes an individual asset file.
+// Asset describes an individual asset file.
 type Asset interface {
 	FileName() string
 	Contents() io.ReadCloser

@@ -2,8 +2,8 @@ package assets
 
 import "io"
 
-// The Concat filter combines all provided assets into one single
-// asset.
+// Concat combines all provided assets into one asset. The resulting
+// AssetBundle will contain a single asset.
 func Concat() Filter {
 	return FilterFunc(func(bundle AssetBundle) (AssetBundle, error) {
 		assets := bundle.Assets()

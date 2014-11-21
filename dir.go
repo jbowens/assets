@@ -9,12 +9,15 @@ type dir struct {
 	Path string
 }
 
+// Dir creates a Directory representing the directory at the given path.
 func Dir(path string) Directory {
 	return &dir{
 		Path: path,
 	}
 }
 
+// Files returns an AssetBundle containing only the files at the filenames
+// given as arguments.
 func (d *dir) Files(files ...string) AssetBundle {
 	assets := make([]Asset, len(files))
 
@@ -46,6 +49,7 @@ func (d *dir) Files(files ...string) AssetBundle {
 	}
 }
 
+// AllFiles returns an AssetBundle containing all the files in the directory.
 func (d *dir) AllFiles() AssetBundle {
 	assets := []Asset{}
 

@@ -8,6 +8,7 @@ type asset struct {
 	contents io.ReadCloser
 }
 
+// NewAsset creates an Asset with the given filename and ReadCloser.
 func NewAsset(fileName string, contents io.ReadCloser) Asset {
 	return &asset{
 		fileName: fileName,
@@ -15,10 +16,12 @@ func NewAsset(fileName string, contents io.ReadCloser) Asset {
 	}
 }
 
+// FileName retrieves the current file name of the asset.
 func (a *asset) FileName() string {
 	return a.fileName
 }
 
+// Contents returns a ReadCloser for the contents of the asset.
 func (a *asset) Contents() io.ReadCloser {
 	return a.contents
 }

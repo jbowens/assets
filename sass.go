@@ -8,6 +8,8 @@ import (
 	sass "github.com/suapapa/go_sass"
 )
 
+// Sass is a filter that compiles sass files into css. File extensions
+// are updated to be .css.
 func Sass() Filter {
 	var compiler sass.Compiler
 

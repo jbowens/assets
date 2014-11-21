@@ -2,6 +2,8 @@ package assets
 
 import "io"
 
+// MultiReadCloser returns an io.ReadCloser that combines all the io.ReadCloser
+// arguments supplied to the function.
 func MultiReadCloser(readClosers ...io.ReadCloser) io.ReadCloser {
 	readers := make([]io.Reader, len(readClosers))
 	for idx, reader := range readClosers {
@@ -19,12 +21,15 @@ type multiReadCloser struct {
 	readClosers []io.ReadCloser
 }
 
+// Read reads, in sequence, from all the ReadClosers contained within
+// the MultiReadCloser.
 func (mrc *multiReadCloser) Read(p []byte) (n int, err error) {
 	return mrc.multiReader.Read(p)
 }
 
+// Close closes all ReadClosers contained within the MultiReadCloser.
 func (mrc *multiReadCloser) Close() error {
-	var err error = nil
+	var err error
 	for _, closer := range mrc.readClosers {
 		e := closer.Close()
 		if e != nil {
