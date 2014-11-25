@@ -10,6 +10,7 @@ type defaultBundle struct {
 }
 
 func (b *defaultBundle) Add(otherBundles ...AssetBundle) AssetBundle {
+	// TODO(jackson): Fix the order of added assets
 	for _, bundle := range otherBundles {
 		b.assets = append(b.assets, bundle.Assets()...)
 	}
