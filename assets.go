@@ -9,7 +9,7 @@ type AssetBundle interface {
 	Name() string
 
 	// Add adds a bundle of assets to this bundle.
-	Add(AssetBundle) AssetBundle
+	Add(...AssetBundle) AssetBundle
 
 	// Filter performs the given filters on all assets contained within the
 	// bundle. Filters are executed in the order they're received.
