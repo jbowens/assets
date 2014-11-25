@@ -6,34 +6,41 @@ Assets management for golang web applications
 
 ## Examples
 
-```go
-coreJS, err := assets.Dir("assets/js")
-  .Files("core.js",
-         "util.js",
-         "models.js",
-         "network.js")
+### Managing dependencies
 
-if err != nil {
-    return err
+Here's an example of compiling core javascript together in a single file,
+homepage-specific javascript into a single file, and then including both
+into a homepage.
+
+```go
+var coreJS assets.AssetBundle
+var homeJS assets.AssetBundle
+
+func onStartUp() {
+
+	// On start up, compile your assets.
+	pipeline := []assets.Filter{
+		assets.Concat(),
+		assets.UglifyJS(),
+		assets.Fingerprint(),
+		assets.WriteToDir("generated"),
+	}
+
+	coreJS = assets.Dir("assets/js/core").MustAllFiles().MustFilter(pipeline...)
+	homeJS = assets.Dir("assets/js/home").MustAllFiles().MustFilter(pipeline...).Add(coreJS)
 }
 
-coreJS, err = coreJS.Filter(
-  assets.Concat(),
-  assets.Uglify(),
-  assets.WriteToDir("generated/assets/js")
-  ).Add(jqueryBundle)
+func whenRenderingHome() {
+	// When including your javascript, include all files listed by
+	// homeJS.FileNames().
+	for _, file := range homeJS.FileNames() {
+		fmt.Println(file)
+	}
+}
 ```
 
-In some places, assets offers Must functions that will panic on error.
-```go
-homepageCSS := assets.Dir("assets/css/home").MustAllFiles()
-  .MustFilter(assets.Concat(), assets.Sass(), assets.WriteToDir("generated/assets/css"))
+This example will print:
 ```
-
-Multiple filters may be combined into one.
-```go
-cssPipeline := assets.Combine(assets.Concat(), assets.Sass(), assets.WriteToDir("gen"))
-
-homepage := assets.Dir("assets/homepage").MustAllFiles().MustFilter(cssPipeline)
-widgets := assets.Dir("assets/widgets").MustAllFiles().MustFilter(cssPipeline)
+home-a00e289d7a1520aa1a2e824b404dc8be.min.js
+core-9627c435b535b37cb247355c8b36f9aa.min.js
 ```
