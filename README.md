@@ -19,7 +19,6 @@ var coreJS assets.AssetBundle
 var homeJS assets.AssetBundle
 
 func onStartUp() {
-
 	// On start up, compile your assets.
 	pipeline := []assets.Filter{
 		assets.Concat(),
