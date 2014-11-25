@@ -5,7 +5,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"io/ioutil"
-	"path/filepath"
 	"strings"
 )
 
@@ -31,9 +30,8 @@ func Fingerprint() Filter {
 			hasher.Write(buf.Bytes())
 			hash := hex.EncodeToString(hasher.Sum(nil))
 
-			ext := filepath.Ext(asset.FileName())
-			base := strings.TrimSuffix(asset.FileName(), ext)
-			filename := base + "-" + hash + ext
+			fileNamePieces := strings.SplitN(asset.FileName(), ".", 2)
+			filename := fileNamePieces[0] + "-" + hash + "." + fileNamePieces[1]
 
 			fingerprintedAssets[idx] = NewAsset(filename, ioutil.NopCloser(buf))
 		}
