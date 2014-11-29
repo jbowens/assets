@@ -48,3 +48,13 @@ func TestDirFiles(t *testing.T) {
 	assert.Contains(t, contents, "a")
 	assert.Contains(t, contents, "c")
 }
+
+func TestDirGlob(t *testing.T) {
+	d := Dir("test_files/javascript")
+	bundle, err := d.Glob("*.js")
+	assert.Nil(t, err)
+	filenames, _ := bundleToFilenamesAndContents(t, bundle)
+
+	assert.Len(t, filenames, 1)
+	assert.Contains(t, filenames, "simple.js")
+}

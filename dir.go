@@ -102,3 +102,41 @@ func (d *dir) MustAllFiles() AssetBundle {
 	}
 	return bundle
 }
+
+// Glob returns all files in the directory matching the glob expression.
+func (d *dir) Glob(globExpr string) (AssetBundle, error) {
+	globExpr = filepath.Join(d.Path, globExpr)
+
+	filePaths, err := filepath.Glob(globExpr)
+	if err != nil {
+		return nil, err
+	}
+
+	assets := make([]Asset, len(filePaths))
+	for idx, filePath := range filePaths {
+		file, err := os.Open(filePath)
+		if err != nil {
+			return nil, err
+		}
+
+		assets[idx] = &asset{
+			fileName: filepath.Base(filePath),
+			contents: file,
+		}
+	}
+
+	return &defaultBundle{
+		currentName: filepath.Base(d.Path),
+		assets:      assets,
+	}, nil
+}
+
+// Glob returns all files in the directory matching the glob expression.
+// If an error occurs, this function will panic.
+func (d *dir) MustGlob(globExpr string) (AssetBundle, error) {
+	bundle, err := d.Glob(globExpr)
+	if err != nil {
+		return nil, err
+	}
+	return bundle, nil
+}

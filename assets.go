@@ -42,6 +42,13 @@ type Directory interface {
 	// MustAllFiles returns all files in the directory as a bundle. On error
 	// this function will panic.
 	MustAllFiles() AssetBundle
+
+	// Glob returns all files in the directory matching the glob expression.
+	Glob(string) (AssetBundle, error)
+
+	// MustGlob returns all files in the directory matching the glob expression.
+	// If an error occurs, this function will panic.
+	MustGlob(string) (AssetBundle, error)
 }
 
 // Asset describes an individual asset file.
