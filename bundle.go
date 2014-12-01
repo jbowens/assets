@@ -9,8 +9,11 @@ type defaultBundle struct {
 	assets []Asset
 }
 
-func (b *defaultBundle) Add(otherBundle AssetBundle) AssetBundle {
-	b.assets = append(b.assets, otherBundle.Assets()...)
+func (b *defaultBundle) Add(otherBundles ...AssetBundle) AssetBundle {
+	// TODO(jackson): Fix the order of added assets
+	for _, bundle := range otherBundles {
+		b.assets = append(b.assets, bundle.Assets()...)
+	}
 	return b
 }
 
