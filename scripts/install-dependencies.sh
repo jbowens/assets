@@ -21,3 +21,4 @@ cd $SASS_LOC
 
 go get github.com/suapapa/go_sass
 go get github.com/stretchr/testify
+go get github.com/codegangsta/negroni
