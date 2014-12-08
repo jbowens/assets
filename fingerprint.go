@@ -19,6 +19,7 @@ func Fingerprint() Filter {
 		fingerprintedAssets := make([]Asset, len(assets))
 
 		for idx, asset := range assets {
+
 			buf := new(bytes.Buffer)
 			_, err := buf.ReadFrom(asset.Contents())
 			if err != nil {
@@ -31,7 +32,12 @@ func Fingerprint() Filter {
 			hash := hex.EncodeToString(hasher.Sum(nil))
 
 			fileNamePieces := strings.SplitN(asset.FileName(), ".", 2)
-			filename := fileNamePieces[0] + "-" + hash + "." + fileNamePieces[1]
+			var filename string
+			if len(fileNamePieces) == 2 {
+				filename = fileNamePieces[0] + "-" + hash + "." + fileNamePieces[1]
+			} else {
+				filename = fileNamePieces[0] + "-" + hash
+			}
 
 			fingerprintedAssets[idx] = NewAsset(filename, ioutil.NopCloser(buf))
 		}
