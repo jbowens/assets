@@ -58,3 +58,18 @@ func TestDirGlob(t *testing.T) {
 	assert.Len(t, filenames, 1)
 	assert.Contains(t, filenames, "simple.js")
 }
+
+func TestDirNested(t *testing.T) {
+	d := Dir("test_files/nested/inner")
+	bundle, err := d.Glob("*.css")
+	assert.Nil(t, err)
+
+	bundle, err = bundle.Filter(Concat())
+	assert.Nil(t, err)
+
+	filenames, _ := bundleToFilenamesAndContents(t, bundle)
+
+	assert.Len(t, filenames, 1)
+	assert.Equal(t, bundle.Name(), "inner")
+	assert.Contains(t, filenames, "inner.css")
+}
