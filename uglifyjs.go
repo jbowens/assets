@@ -12,16 +12,18 @@ import (
 // UglifyJS is a filter that runs the uglifyjs command line utility over
 // assets. By default, it replaces '.js' extensions with '.min.js'.
 func UglifyJS() Filter {
-	return &uglifyJS{
-		useMinFileExtension: true,
+	return &UglifyJSFilter{
+		UseMinFileExtension: true,
+		Mangle:              true,
 	}
 }
 
-type uglifyJS struct {
-	useMinFileExtension bool
+type UglifyJSFilter struct {
+	UseMinFileExtension bool
+	Mangle              bool
 }
 
-func (u *uglifyJS) RunFilter(bundle AssetBundle) (AssetBundle, error) {
+func (u *UglifyJSFilter) RunFilter(bundle AssetBundle) (AssetBundle, error) {
 	// Make sure uglifyjs is in the PATH
 	_, err := exec.LookPath("uglifyjs")
 	if err != nil {
@@ -45,8 +47,8 @@ func (u *uglifyJS) RunFilter(bundle AssetBundle) (AssetBundle, error) {
 	}, nil
 }
 
-func (u *uglifyJS) uglify(source io.ReadCloser) (io.ReadCloser, error) {
-	cmd := exec.Command("uglifyjs", "--mangle", "-")
+func (u *UglifyJSFilter) uglify(source io.ReadCloser) (io.ReadCloser, error) {
+	cmd := exec.Command("uglifyjs", u.commandArgs()...)
 	stdIn, err := cmd.StdinPipe()
 	if err != nil {
 		return nil, err
@@ -66,8 +68,19 @@ func (u *uglifyJS) uglify(source io.ReadCloser) (io.ReadCloser, error) {
 	return ioutil.NopCloser(bytes.NewReader(output)), nil
 }
 
-func (u *uglifyJS) fileName(old string) string {
-	if !u.useMinFileExtension || filepath.Ext(old) != ".js" {
+func (u *UglifyJSFilter) commandArgs() []string {
+	args := []string{}
+
+	if u.Mangle {
+		args = append(args, "--mangle")
+	}
+
+	args = append(args, "-")
+	return args
+}
+
+func (u *UglifyJSFilter) fileName(old string) string {
+	if !u.UseMinFileExtension || filepath.Ext(old) != ".js" {
 		return old
 	}
 
