@@ -18,6 +18,11 @@ const tempDirPrefix = "assets_TypeScript"
 // extension.
 func TypeScript() Filter {
 	return FilterFunc(func(bundle AssetBundle) (AssetBundle, error) {
+		// If this an empty bundle, just skip this.
+		if len(bundle.FileNames()) == 0 {
+			return bundle, nil
+		}
+
 		// Validate that the bundle contains only TypeScript files
 		for _, fileName := range bundle.FileNames() {
 			if filepath.Ext(fileName) != ".ts" {
