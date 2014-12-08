@@ -46,7 +46,7 @@ func (u *uglifyJS) RunFilter(bundle AssetBundle) (AssetBundle, error) {
 }
 
 func (u *uglifyJS) uglify(source io.ReadCloser) (io.ReadCloser, error) {
-	cmd := exec.Command("uglifyjs", "-")
+	cmd := exec.Command("uglifyjs", "--mangle", "-")
 	stdIn, err := cmd.StdinPipe()
 	if err != nil {
 		return nil, err
