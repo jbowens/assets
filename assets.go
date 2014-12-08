@@ -48,7 +48,7 @@ type Directory interface {
 
 	// MustGlob returns all files in the directory matching the glob expression.
 	// If an error occurs, this function will panic.
-	MustGlob(string) (AssetBundle, error)
+	MustGlob(string) AssetBundle
 }
 
 // Asset describes an individual asset file.

@@ -133,10 +133,10 @@ func (d *dir) Glob(globExpr string) (AssetBundle, error) {
 
 // Glob returns all files in the directory matching the glob expression.
 // If an error occurs, this function will panic.
-func (d *dir) MustGlob(globExpr string) (AssetBundle, error) {
+func (d *dir) MustGlob(globExpr string) AssetBundle {
 	bundle, err := d.Glob(globExpr)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	return bundle, nil
+	return bundle
 }
