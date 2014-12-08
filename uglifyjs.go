@@ -15,12 +15,14 @@ func UglifyJS() Filter {
 	return &UglifyJSFilter{
 		UseMinFileExtension: true,
 		Mangle:              false,
+		Compress:            false,
 	}
 }
 
 type UglifyJSFilter struct {
 	UseMinFileExtension bool
 	Mangle              bool
+	Compress            bool
 }
 
 func (u *UglifyJSFilter) RunFilter(bundle AssetBundle) (AssetBundle, error) {
@@ -73,6 +75,10 @@ func (u *UglifyJSFilter) commandArgs() []string {
 
 	if u.Mangle {
 		args = append(args, "--mangle")
+	}
+
+	if u.Compress {
+		args = append(args, "--compress")
 	}
 
 	args = append(args, "-")
