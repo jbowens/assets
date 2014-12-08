@@ -14,7 +14,7 @@ import (
 func UglifyJS() Filter {
 	return &UglifyJSFilter{
 		UseMinFileExtension: true,
-		Mangle:              true,
+		Mangle:              false,
 	}
 }
 
