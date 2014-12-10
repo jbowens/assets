@@ -3,6 +3,7 @@ package assets
 import (
 	"os"
 	"path/filepath"
+	"regexp"
 )
 
 type dir struct {
@@ -135,6 +136,47 @@ func (d *dir) Glob(globExpr string) (AssetBundle, error) {
 // If an error occurs, this function will panic.
 func (d *dir) MustGlob(globExpr string) AssetBundle {
 	bundle, err := d.Glob(globExpr)
+	if err != nil {
+		panic(err)
+	}
+	return bundle
+}
+
+func (d *dir) WalkRegexp(regexp *regexp.Regexp) (AssetBundle, error) {
+	assets := []Asset{}
+
+	err := filepath.Walk(d.Path,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+
+			if !info.IsDir() && regexp.MatchString(info.Name()) {
+				file, err := os.Open(path)
+				if err != nil {
+					return err
+				}
+
+				assets = append(assets, &asset{
+					fileName: info.Name(),
+					contents: file,
+				})
+			}
+			return nil
+		})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &defaultBundle{
+		currentName: filepath.Base(d.Path),
+		assets:      assets,
+	}, nil
+}
+
+func (d *dir) MustWalkRegexp(regexp *regexp.Regexp) AssetBundle {
+	bundle, err := d.WalkRegexp(regexp)
 	if err != nil {
 		panic(err)
 	}

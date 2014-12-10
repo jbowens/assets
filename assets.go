@@ -1,6 +1,9 @@
 package assets
 
-import "io"
+import (
+	"io"
+	"regexp"
+)
 
 // AssetBundle holds a collection of assets. Filters may be applied to bundles,
 // and the resulting assets outputted to disk.
@@ -49,6 +52,13 @@ type Directory interface {
 	// MustGlob returns all files in the directory matching the glob expression.
 	// If an error occurs, this function will panic.
 	MustGlob(string) AssetBundle
+
+	// WalkRegexp returns all files in the subtree that match the given regexp.
+	WalkRegexp(*regexp.Regexp) (AssetBundle, error)
+
+	// MustWalkRegexp returns all files in the subtree that match the given
+	// regexp. If an error occurs, this function will panic.
+	MustWalkRegexp(*regexp.Regexp) AssetBundle
 }
 
 // Asset describes an individual asset file.
