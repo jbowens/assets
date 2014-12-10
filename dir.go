@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 type dir struct {
@@ -157,8 +158,9 @@ func (d *dir) WalkRegexp(regexp *regexp.Regexp) (AssetBundle, error) {
 					return err
 				}
 
+				pathWithoutPrefix := filepath.Clean(strings.TrimPrefix(path, d.Path))
 				assets = append(assets, &asset{
-					fileName: info.Name(),
+					fileName: pathWithoutPrefix,
 					contents: file,
 				})
 			}

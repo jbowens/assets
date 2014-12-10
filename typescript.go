@@ -63,8 +63,12 @@ func TypeScript() Filter {
 		}
 
 		// Create the new asset list for the resulting bundle.
-		assets := make([]Asset, len(bundle.Assets()))
-		for idx, fileName := range bundle.FileNames() {
+		assets := make([]Asset, 0)
+		for _, fileName := range bundle.FileNames() {
+			if strings.HasSuffix(fileName, ".d.ts") {
+				continue
+			}
+
 			newFileName := strings.TrimSuffix(fileName, ".ts")
 			newFileName = newFileName + ".js"
 
@@ -73,10 +77,10 @@ func TypeScript() Filter {
 				return nil, err
 			}
 
-			assets[idx] = NewAsset(
+			assets = append(assets, NewAsset(
 				newFileName,
 				ioutil.NopCloser(bytes.NewReader(contents)),
-			)
+			))
 		}
 
 		return &defaultBundle{
