@@ -19,12 +19,15 @@ func UglifyJS() Filter {
 	}
 }
 
+// UglifyJSFilter is a filter that runs the uglifyjs command line utility
+// over the assets. It has a few options to specify flags to the cli.
 type UglifyJSFilter struct {
 	UseMinFileExtension bool
 	Mangle              bool
 	Compress            bool
 }
 
+// RunFilter executes the UglifyJS filter on the given bundle.
 func (u *UglifyJSFilter) RunFilter(bundle AssetBundle) (AssetBundle, error) {
 	// Make sure uglifyjs is in the PATH
 	_, err := exec.LookPath("uglifyjs")

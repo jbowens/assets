@@ -63,7 +63,7 @@ func TypeScript() Filter {
 		}
 
 		// Create the new asset list for the resulting bundle.
-		assets := make([]Asset, 0)
+		var assets []Asset
 		for _, fileName := range bundle.FileNames() {
 			if strings.HasSuffix(fileName, ".d.ts") {
 				continue
