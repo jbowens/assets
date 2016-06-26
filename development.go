@@ -63,6 +63,12 @@ func (d dev) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 			req.URL.Path = stripped
 		}
 	}
+
+	// Prevent caching during development.
+	rw.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+	rw.Header().Set("Pragma", "no-cache")
+	rw.Header().Set("Expires", "0")
+
 	d.fs.ServeHTTP(rw, req)
 }
 
