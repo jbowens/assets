@@ -11,6 +11,13 @@ import (
 	"strings"
 )
 
+// DevelopmentBundler can create asset bundles in development mode.
+var DevelopmentBundler Bundler
+
+func init() {
+	DevelopmentBundler = bundlerFunc(Development)
+}
+
 // Development returns an assets bundle for the assets in the the
 // provided directory. It will pull the latest copy of the file from the
 // filesystem on every request and is intended to be used during development.

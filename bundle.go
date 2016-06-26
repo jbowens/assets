@@ -9,3 +9,16 @@ type Bundle interface {
 	http.Handler
 	RelativePaths() []string
 }
+
+// Bundler provides a common interface for types that can create asset
+// bundles.
+type Bundler interface {
+	Bundle(directory string) (Bundle, error)
+}
+
+type bundlerFunc func(directory string) (Bundle, error)
+
+// Bundle implements the Bundler interface by invoking bf.
+func (bf bundlerFunc) Bundle(directory string) (Bundle, error) {
+	return bf(directory)
+}
